@@ -1,2 +1,1 @@
-from copy import deepcopy
-print(help(deepcopy))
+print(help(print))
