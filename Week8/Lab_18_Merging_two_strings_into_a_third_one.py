@@ -16,22 +16,53 @@
 
 import re
 
-def get_three_strings():
-    first_string=input('Please input the first string: ')
-    second_string=input('Please input the second string: ')
-    third_string=input('Please input the third string: ')
-    return first_string,second_string,third_string
+def operate(a_list,b_list,c_list):
+    global flag
+    if not a_list:
+        flag=True
+        return
+    if not b_list:
+        for each_index in range(len(a_list)):
+            if a_list[each_index]!=c_list[each_index]:
+                return
+            flag=True
+            return
+    if not c_list:
+        for each_index in range(len(a_list)):
+            if a_list[each_index]!=b_list[each_index]:
+                return
+            flag=True
+            return
+    temp_a=a_list.pop(0)
+    if b_list[0]!=temp_a and c_list[0]!=temp_a:
+        return
+    elif b_list[0]==temp_a and c_list[0]!=temp_a:
+        b_list.pop(0)
+        operate(a_list,b_list,c_list)
+    elif b_list[0]!=temp_a and c_list[0]==temp_a:
+        c_list.pop(0)
+        operate(a_list,b_list,c_list)
+    else:
+        operate(a_list,b_list[1:],c_list)
+        operate(a_list,b_list,c_list[1:])
 
-def check_merge(target_string,source_string_1,source_string_2):
-    source_2_list=[]
-    for each_element in source_string_2:
-        source_2_list.append(each_element)
-    length_of_source_string_2=len(source_string_2)
-    # nb of empty block=length_of_source_string_2+1
-    pattern_string=r'^(.*?)'
-    for i in range(len(source_2_list)):
-        pattern_string+=source_2_list[i]
-        pattern_string+=r'(.*?)'
-    pattern_string+=r'$'
-    pattern=re.compile(pattern_string)
-    result=re.match(pattern,target_string)
+first_string=input('Please input the first string: ')
+second_string=input('Please input the second string: ')
+third_string=input('Please input the third string: ')
+string_list=[first_string,second_string,third_string]
+string_list.sort(key=lambda x:len(x))
+string_list.reverse()
+a_list=[i for i in string_list[0]]# longest
+b_list=[i for i in string_list[1]]
+c_list=[i for i in string_list[2]]
+flag=False
+operate(a_list,b_list,c_list)
+if flag:
+    if first_string==string_list[0]:
+        print('The first string can be obtained by merging the other two.')
+    elif second_string==string_list[0]:
+        print('The second string can be obtained by merging the other two.')
+    else:
+        print('The third string can be obtained by merging the other two.')
+else:
+    print('No solution')
