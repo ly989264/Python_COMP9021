@@ -4,14 +4,17 @@
 import os
 from random import seed,randrange
 
-os.chdir('maze_test_file')
+os.chdir('d:/maze_test_file')
+
 
 # CREATE VALID MAZE FILE OF X FROM 2 TO 31, Y FROM 2 TO 41
 count=0
-for seed in range(1,6):
-    seed(seed)# PAY ATTENTION, THE FILES GENERATED BEFORE DID NOT HAVE THIS
-    for x in range(2,32):
-        for y in range(2,42):
+
+for x in range(2,32):
+    for y in range(2,42):
+        for each_seed in range(1, 10):
+            print(f'Currently working with {count}.')
+            seed(each_seed)
             filename=f'maze_{count}.txt'
             with open(filename,'w') as f:
                 for each_row in range(0,x-1):
